@@ -2,6 +2,7 @@ import { FilesService } from "./fs.js";
 import { parseArgs } from "./helpers.js";
 import { NavigationService } from "./navigation.js";
 import { ReplService } from "./repl.js";
+import { getSystemOSInfo } from "./system.js";
 
 export class App {
   constructor(process) {
@@ -22,7 +23,7 @@ export class App {
       ["cp", (args) => filesService.copyFile(args)],
       ["rm", (args) => filesService.removeFile(args)],
       ["mv", (args) => filesService.moveFile(args)],
-      // ["os", (args) => filesService.moveFile(args)],
+      ["os", (args) => getSystemOSInfo(args)],
     ]);
 
     replService.start(process, commands)
