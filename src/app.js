@@ -18,6 +18,9 @@ export class App {
       ["ls", () => navigationService.list()],
       ["add", (args) => filesService.add(args)],
       ["cat", (args) => filesService.concatenate(args)],
+      ["rn", (args) => filesService.rename(args)],
+      ["cp", (args) => filesService.copyFile(args)],
+      ["rm", (args) => filesService.concatenate(args)],
 
     ]);
 
