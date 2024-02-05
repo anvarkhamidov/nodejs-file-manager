@@ -1,6 +1,5 @@
-import { createReadStream, createWriteStream, stat } from 'fs';
-import { rename, writeFile } from 'fs/promises';
-import { EOL } from 'os';
+import { createReadStream, createWriteStream } from 'fs';
+import { rename, rm, stat, writeFile } from 'fs/promises';
 import { basename, resolve } from 'path';
 import { OperationFailedError } from './errors.js';
 import { parsePathArgs } from './helpers.js';
@@ -39,14 +38,12 @@ export class FilesService {
       try {
         const path = await this.navigationService.validatePath(args, false);
         const stream = createReadStream(path);
-        stream.on("open", () => console.log(EOL));
         stream.on("error", () => preject(new OperationFailedError()));
-        stream.on("data", chunk => {
-          console.log(chunk.toString());
-        });
-        stream.on("close", presolve);
+        stream.on("end", presolve);
+
+        stream.pipe(process.stdout);
       } catch {
-        throw new OperationFailedError();
+        preject(new OperationFailedError());
       }
     })
   }
@@ -64,11 +61,26 @@ export class FilesService {
           writeStream.on("close", presolve);
 
           readStream.pipe(writeStream);
-        }
+        } else preject(new OperationFailedError());
       } catch {
-        throw new OperationFailedError();
+        preject(new OperationFailedError());
       }
     });
+  }
+
+  async moveFile(args) {
+    const [srcFilePath, destFileDir] = parsePathArgs(args, this.navigationService.cwd);
+    this.copyFile(args);
+    await this.removeFile([srcFilePath]);
+  }
+
+  async removeFile(args) {
+    try {
+      const [path] = parsePathArgs(args, this.navigationService.cwd);
+      await rm(path);
+    } catch {
+      throw new OperationFailedError();
+    }
   }
 
 };

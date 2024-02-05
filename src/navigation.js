@@ -1,6 +1,6 @@
 import { access, readdir, stat } from 'fs/promises';
 import { homedir } from 'os';
-import { isAbsolute, join } from 'path';
+import { isAbsolute, resolve } from 'path';
 import { OperationFailedError } from './errors.js';
 import { printer } from './helpers.js';
 
@@ -22,8 +22,8 @@ export class NavigationService {
 
   async validatePath(args, validateDir = false, raiseOnFileExist = false) {
     try {
-      const [targetPath] = args.split(" ")
-      const destPath = isAbsolute(targetPath) ? targetPath : join(this.cwd, targetPath);
+      const [targetPath] = args
+      const destPath = isAbsolute(targetPath) ? targetPath : resolve(this.cwd, targetPath);
       try {
         await access(destPath);
       } catch (err) {

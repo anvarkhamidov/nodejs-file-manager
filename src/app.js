@@ -20,8 +20,9 @@ export class App {
       ["cat", (args) => filesService.concatenate(args)],
       ["rn", (args) => filesService.rename(args)],
       ["cp", (args) => filesService.copyFile(args)],
-      ["rm", (args) => filesService.concatenate(args)],
-
+      ["rm", (args) => filesService.removeFile(args)],
+      ["mv", (args) => filesService.moveFile(args)],
+      // ["os", (args) => filesService.moveFile(args)],
     ]);
 
     replService.start(process, commands)
