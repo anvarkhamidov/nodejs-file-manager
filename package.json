@@ -1,0 +1,27 @@
+{
+  "name": "nodejs-file-manager",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "type": "module",
+  "private": false,
+  "engines": {
+    "node": ">= 20.0.0"
+  },
+  "homepage": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anvarkhamidov/nodejs-file-manager.git"
+  },
+  "bugs": "",
+  "keywords": [],
+  "author": {
+    "name": "Anvar Khamidov",
+    "email": "anvarbekkhamidov@gmail.com"
+  },
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
